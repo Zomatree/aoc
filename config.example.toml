@@ -1,0 +1,12 @@
+[cookies]
+session = ""
+
+template = """
+with open("{year}/{day}/input.txt") as f:
+    input = f.read().splitlines()
+
+def part1():
+    ...
+
+print(part1())
+"""
