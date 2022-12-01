@@ -6,9 +6,10 @@ import qualified Data.Map as Map
 
 import qualified Day1 (solve)
 import qualified Day2 (solve)
+import qualified Day3 (solve)
 
 
-days = Map.fromList [("1", Day1.solve), ("2", Day2.solve)]
+days = Map.fromList [("1", Day1.solve), ("2", Day2.solve), ("3", Day3.solve)]
 
 runDay :: String -> (String -> (String, String)) -> IO (String, String)
 runDay day solve = do
