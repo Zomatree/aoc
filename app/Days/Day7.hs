@@ -49,14 +49,27 @@ getNum :: SizedTree -> Int
 getNum (SizedDir size _) = size
 getNum (SizedFile size) = size
 
+getChildren :: SizedTree -> [SizedTree]
+getChildren (SizedDir _ children) = children
+getChildren f@(SizedFile _) = [f]
+
 getSizes :: FsNode -> SizedTree
 getSizes (Dir (DirType name children)) =
     let children_sizes = map getSizes children
     in SizedDir (sum $ map getNum children_sizes) children_sizes
 getSizes (File size _) = SizedFile size
 
+getSizedTreeSize :: SizedTree -> Int
+getSizedTreeSize (SizedDir size _) = size
+getSizedTreeSize (SizedFile size) = size
+
+foldSize :: SizedTree -> Int
+foldSize tree = foldl (\size cs ->
+    let tree_size = getSizedTreeSize tree
+    in if tree_size <= 100000 then tree_size + size else size) 0 (getChildren tree)
+
 solvePartA :: String -> String
-solvePartA i = show $ getSizes $ Dir $ head $ fst $ foldl executeLine ([], Dir $ DirType "/" []) $ map parseLine $ lines i
+solvePartA i = show $ foldSize $ getSizes $ Dir $ head $ fst $ foldl executeLine ([], Dir $ DirType "/" []) $ map parseLine $ lines i
 
 solvePartB :: String -> String
 solvePartB i = ""
